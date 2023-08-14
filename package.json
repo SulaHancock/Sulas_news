@@ -18,6 +18,7 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/northcoders/be-nc-news/issues"
+  
   },
   "homepage": "https://github.com/northcoders/be-nc-news#readme",
   "devDependencies": {
@@ -27,7 +28,7 @@
     "pg-format": "^1.0.4"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.3.1",
     "pg": "^8.7.3"
   },
   "jest": {
