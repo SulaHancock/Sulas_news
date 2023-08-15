@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express()
-const { getTopics } = require('./db/Controllers/topics.controller')
+const { getTopics, getAllApis } = require('./db/Controllers/topics.controller')
 
 
 
 
 app.get('/api/topics', getTopics)
+
+app.get('/api', getAllApis)
+
  
 
 app.use((_, response) => {

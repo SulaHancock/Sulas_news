@@ -1,6 +1,7 @@
 
 const db = require('../connection')
 
+
 const fetchTopics = ()=>{
     const qryToGetTopics = "SELECT * FROM topics"
     return db.query(qryToGetTopics)
@@ -8,6 +9,10 @@ const fetchTopics = ()=>{
         return rows;
     })
 }
+
+
+
+  
 
 
 
