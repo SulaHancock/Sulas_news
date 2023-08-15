@@ -7,6 +7,7 @@ const getTopics = (request, response, next)=>{
     .then((topics)=>{ response.status(200)
         .send({topics})
     }).catch((err)=>{
+        next(err)
     })
 }
 
