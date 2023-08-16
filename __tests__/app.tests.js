@@ -49,6 +49,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                     //     expect(jsonObject).toHaveProperty('queries',expect.any(String));
                     //     expect(jsonObject).toHaveProperty('exampleResponse',expect.any(String));
                         expect(typeof response.body).toBe('object'); 
+                        expect(response.body).toEqual(jsonRequiredObj)
                         // expect(response.body).toBe('jsonRequiredObj') /*wanting to check if response.body is the same as required file */
                     })
                 })
@@ -56,6 +57,25 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
          
                 // })
 
-        
-         
-            
+                // describe('/api/articles/:article_id',()=>{
+                //     test('responds with status of 200 and object and responds with an artilce object',()=>{
+                //         return request(app).get('/api/articles/:article_id').expect(200)
+                //         .then((response)=>{
+                //             const {byId} = response.body
+                //             // const idLength = 
+                //             // expect(byID.length).toBe()
+                //             expect(typeof response.body).toBe('object'); 
+                //           response.forEach((byId)=>{
+                //             expect(byId).toHaveProperty('title',expect.any(String));     
+                //             expect(byId).toHaveProperty('article_id',expect.any(String));
+                //             expect(byId).toHaveProperty('author',expect.any(String));
+                //             expect(byId).toHaveProperty('body',expect.any(String));
+                //             expect(byId).toHaveProperty('topic',expect.any(String));
+                //             expect(byId).toHaveProperty('created_at',expect.any(String));
+                //             expect(byId).toHaveProperty('votes',expect.any(String));
+                //             expect(byId).toHaveProperty('article_img_url',expect.any(String));
+                //             })
+                //         })
+                //     }) 
+                 
+                //         })
