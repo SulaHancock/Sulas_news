@@ -1,5 +1,5 @@
 
-const db = require('../connection')
+const db = require('be-nc-news/db/connection.js')
 
 
 const fetchTopics = ()=>{
@@ -9,12 +9,6 @@ const fetchTopics = ()=>{
         return rows;
     })
 }
-
-
-
-  
-
-
 
 
 module.exports = { fetchTopics }
