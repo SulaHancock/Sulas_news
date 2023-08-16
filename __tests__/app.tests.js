@@ -49,6 +49,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                     //     expect(jsonObject).toHaveProperty('queries',expect.any(String));
                     //     expect(jsonObject).toHaveProperty('exampleResponse',expect.any(String));
                         expect(typeof response.body).toBe('object'); 
+                        // expect(response.body).toBe('jsonRequiredObj') /*wanting to check if response.body is the same as required file */
                     })
                 })
             })
