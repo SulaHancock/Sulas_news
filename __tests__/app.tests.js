@@ -3,6 +3,7 @@ const request = require('supertest');
 const data = require('../db/data/test-data');
 const seed = require('../db/seeds/seed');
 const db = require('../db/connection.js');
+const jsonRequiredObj = require('be-nc-news/endpoints.json')
 
 afterAll(()=>{
     return db.end();
@@ -36,4 +37,16 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
           });
         });
 
-       
+
+        describe('/api responds with object of apis',()=>{
+            test('responds with status of 200 and object with keys description, acceptable queries and example responses, ',()=>{
+                return request(app).get('/api').expect(200)
+                .then((response)=>{
+                    expect(typeof response.body).toBe('object'); 
+                    expect(response.body).toEqual(jsonRequiredObj)
+   
+                    })
+                })
+            })
+         
+              
