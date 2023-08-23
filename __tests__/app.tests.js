@@ -3,7 +3,8 @@ const request = require('supertest');
 const data = require('../db/data/test-data');
 const seed = require('../db/seeds/seed');
 const db = require('../db/connection.js');
-const jsonRequiredObj = require('be-nc-news/endpoints.json')
+const jsonRequiredObj = require('/Users/sulahancock/Desktop/Northcoders/Backend/Sulas_news/endpoints.json');
+const articles = require('../db/data/test-data/articles');
 
 afterAll(()=>{
     return db.end();
@@ -83,3 +84,51 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                         expect(body.msg).toBe("Invalid request")
                     });
                   });
+
+                  /*Q5*/describe('/api/articles/',()=>{
+                    test('responds with status of 200 and an article object with title, article_id, topic, created_at,votes,article_img_url, comment_count',()=>{
+                        return request(app).get('/api/articles').expect(200)
+                        .then(({body})=>{
+                            const articles  = body.articles;
+                            expect(articles.length).toBe(13);
+                            articles.forEach((article) => {
+                                expect(article).toHaveProperty('author');
+                                expect(article).toHaveProperty('title');
+                                expect(article).toHaveProperty('article_id');
+                                expect(article).toHaveProperty('topic');
+                                expect(article).toHaveProperty('created_at');
+                                expect(article).toHaveProperty('votes');
+                                expect(article).toHaveProperty('article_img_url');
+                                expect(article).toHaveProperty('comment_count');
+                                expect(article).not.toHaveProperty('body');
+                                  // test('response data should be in decending created_at order' /*see Haroon's message jest sorted*/,()=>{
+                                    //do some error handling
+                            })
+                            })
+                            })
+
+                
+
+                    })
+                    // /*error handling Q5*/
+                    // describe('/api/articles/:article_id/comments', () => {
+                    //     test('should respond with status 200 and a comment object with properties comment_id, votes, created_at, author, body and article_id', () => {
+                    //         return request(app).get('/api/articles/1/comments').expect(200)
+                    //             .then((response)=>{
+                    //                 const { comments } = response.body
+                    //             expect(comments.length).not.toBe(0);
+                    //             expect(comments).toBeSortedBy('created_at', { descending: true });
+                    //             comments.forEach((comments) => {
+                    //                 expect(comments).toHaveProperty('comment_id');
+                    //                 expect(comments).toHaveProperty('votes');
+                    //                 expect(comments).toHaveProperty('created_at');
+                    //                 expect(comments).toHaveProperty('body');
+                    //                 expect(comments).toHaveProperty('article_id');
+                    //                 expect(comments).toHaveProperty('author');
+                                   
+                    //             })
+                    //         })
+                                
+                    //     });
+                        
+                    // });

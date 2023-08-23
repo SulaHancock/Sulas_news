@@ -1,0 +1,9 @@
+Q5 
+Currently tests passing, but need to do:
+1. Testing - test data is in desc order by created_at - can I use jest sorted? See Haroon's message about that
+2. error handling
+
+Q6
+
+
+github - crossed branches
