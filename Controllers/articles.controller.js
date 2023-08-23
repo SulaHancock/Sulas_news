@@ -1,4 +1,4 @@
-const fetchArticleById  = require('be-nc-news/Models/articles.models.js')
+const { fetchArticleById,  fetchAllArticles, fetchCommentsById } = require('be-nc-news/Models/articles.models.js')
 
 const getArticleById = (request, response, next)=>{
     const chosenID = request.params.article_id
@@ -13,7 +13,31 @@ const getArticleById = (request, response, next)=>{
        
     })
 }
+/*Q5 */
+const getAllArticlesOrderByCreatedAt = (request, response,next)=>{
+    fetchAllArticles()
+    .then((articles)=>{
+        response.status(200)
+        .send({articles})
+    })
+    .catch((err)=>{
+        next(err)
+    })
+
+}
+/*Q6*/
+const getAllCommentsByArticleId = (request, repsonse, next)=>{
+    const articleId = request.params.article_id;
+    fetchCommentsByArticleId(articleId)
+    .then((comments)=>{
+        response.status(200)
+        .send({comments})
+    })
+    .catch((err)=>{
+        next(err)
+    })
+}
 
 
 
-module.exports =  getArticleById 
+module.exports = { getArticleById, getAllArticlesOrderByCreatedAt, getAllCommentsByArticleId,}
