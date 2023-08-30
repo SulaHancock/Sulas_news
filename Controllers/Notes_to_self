@@ -1,0 +1,4 @@
+/*
+1. Used promise.all (used two model functions) for Q8 - got back an array or promise values, so need to rememebr Have to give it a key to send back and send back correct value at index i.e value 1 as wanted the updated article.
+
+2. Remember to aquire in pg format in the files that neeed it - Can't remember why some and not others - find out

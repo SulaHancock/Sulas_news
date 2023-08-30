@@ -1,4 +1,4 @@
-const { fetchArticleById,  fetchAllArticles, fetchCommentsById } = require('be-nc-news/Models/articles.models.js')
+const { fetchArticleById,  fetchAllArticles, updateArticleVotes } = require('be-nc-news/Models/articles.models.js')
 
 const getArticleById = (request, response, next)=>{
     const chosenID = request.params.article_id
@@ -23,21 +23,22 @@ const getAllArticlesOrderByCreatedAt = (request, response,next)=>{
     .catch((err)=>{
         next(err)
     })
-
-}
-/*Q6*/
-const getAllCommentsByArticleId = (request, repsonse, next)=>{
-    const articleId = request.params.article_id;
-    fetchCommentsByArticleId(articleId)
-    .then((comments)=>{
-        response.status(200)
-        .send({comments})
-    })
-    .catch((err)=>{
-        next(err)
-    })
 }
 
+//Q8
+const patchArticleVotes = (request, response, next) => {
+    const { article_id } = request.params;
+    let { inc_votes } = request.body;
+    inc_votes = +inc_votes;
 
+Promise.all([fetchArticleById(article_id), updateArticleVotes(article_id,inc_votes)])
+        .then((article) => {
+            response.status(200).send({ article: article[1] });
+        })
+        .catch((err) => {
+            next(err);
+        });
+    }
+    
 
-module.exports = { getArticleById, getAllArticlesOrderByCreatedAt, getAllCommentsByArticleId,}
+module.exports = { getArticleById, getAllArticlesOrderByCreatedAt, patchArticleVotes }

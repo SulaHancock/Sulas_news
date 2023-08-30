@@ -1,4 +1,7 @@
 const db = require('be-nc-news/db/connection.js')
+const format = require('pg-format');
+
+
 
 const fetchArticleById = (article_id)=>{
 return db
@@ -16,6 +19,8 @@ return article;
 });
 };
 
+
+//Q5
 const fetchAllArticles = ()=>{
         return db
         .query('SELECT articles.author, articles.title,articles.article_id,articles.topic,articles.created_at,articles.votes,articles.article_img_url,COUNT(comments.comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY articles.created_at DESC;')
@@ -24,18 +29,22 @@ const fetchAllArticles = ()=>{
         });
         };
 
-    const fetchCommentsByArticleId= ()=>{
-        return db
-        .query('SELECT * FROM comments WHERE comment_id = $1 ORDER BY created_at DESC', [article_id])
-        .then(({rows})=>{
-            return rows;
-        })
-    }
-
-    
+ //Q8
 
 
+ const updateArticleVotes = (article_id, inc_votes) => {
 
+    const queryString = 
+        `UPDATE articles
+        SET votes = votes + ${inc_votes}
+        WHERE article_id = ${article_id}
+        RETURNING *;`
+   
+    return db.query(queryString)
+    .then(result => {
+        console.log("hello")
+        return result.rows[0];
+    });
+};
 
-
-module.exports = { fetchArticleById, fetchAllArticles, fetchCommentsByArticleId }
+module.exports = { fetchArticleById, fetchAllArticles, updateArticleVotes }

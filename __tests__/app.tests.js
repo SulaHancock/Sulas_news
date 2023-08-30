@@ -4,7 +4,9 @@ const data = require('../db/data/test-data');
 const seed = require('../db/seeds/seed');
 const db = require('../db/connection.js');
 const jsonRequiredObj = require('/Users/sulahancock/Desktop/Northcoders/Backend/Sulas_news/endpoints.json');
-const articles = require('../db/data/test-data/articles');
+// const articles = require('../db/data/test-data/articles'); //why is this ghosted out? surely it works if Q5 passes? - do we need lines 7 and 8 if we have line 3?
+// const comments = require('../db/data/test-data/comments.js'); //is this not link to test data? why is it ghosted out?
+
 
 afterAll(()=>{
     return db.end();
@@ -68,7 +70,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                     })
                 })
 
-                test('status:404, responds with an error message when passed a valid ID that doesnt exist', () => {
+                test('status:404, responds with an error message when passed a valid ID type, but that ID number doesnt exist', () => {
                     return request(app)
                       .get('/api/articles/500000')
                       .expect(404)
@@ -101,34 +103,137 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                                 expect(article).toHaveProperty('article_img_url');
                                 expect(article).toHaveProperty('comment_count');
                                 expect(article).not.toHaveProperty('body');
-                                  // test('response data should be in decending created_at order' /*see Haroon's message jest sorted*/,()=>{
-                                    //do some error handling
+                                 
                             })
                             })
                             })
-
-                
-
                     })
-                    // /*error handling Q5*/
-                    // describe('/api/articles/:article_id/comments', () => {
-                    //     test('should respond with status 200 and a comment object with properties comment_id, votes, created_at, author, body and article_id', () => {
-                    //         return request(app).get('/api/articles/1/comments').expect(200)
-                    //             .then((response)=>{
-                    //                 const { comments } = response.body
-                    //             expect(comments.length).not.toBe(0);
-                    //             expect(comments).toBeSortedBy('created_at', { descending: true });
-                    //             comments.forEach((comments) => {
-                    //                 expect(comments).toHaveProperty('comment_id');
-                    //                 expect(comments).toHaveProperty('votes');
-                    //                 expect(comments).toHaveProperty('created_at');
-                    //                 expect(comments).toHaveProperty('body');
-                    //                 expect(comments).toHaveProperty('article_id');
-                    //                 expect(comments).toHaveProperty('author');
-                                   
-                    //             })
-                    //         })
-                                
-                    //     });
-                        
-                    // });
+                    test("should show the correct number of comment_count per article", () => {
+                      return request(app)
+                        .get("/api/articles")
+                        .expect(200)
+                        .then(({ body: { articles } }) => {
+                          articles.forEach((article) => {
+                            if (article.article_id === 1) {
+                              expect(article.comment_count).toBe('11');//need to figure how to show as int and not string
+                            }
+                            if (article.article_id === 9) {
+                              expect(article.comment_count).toBe('2');//need to figure how to show as int and not string
+                            }
+                          });
+                        });
+                    });
+
+
+                    //Q6
+                    describe('/api/articles/:article_id/comments', () => {
+                        test('status 200 - responds with an array of comment object(s) with the correct properties', () => {
+                          return request(app)
+                            .get('/api/articles/1/comments')
+                            .expect(200)
+                            .then(({ body }) => {
+                              body.forEach((comment) => {
+                                expect(comment).toHaveProperty('comment_id');
+                                expect(comment).toHaveProperty('votes');
+                                expect(comment).toHaveProperty('created_at');
+                                expect(comment).toHaveProperty('author');
+                                expect(comment).toHaveProperty('body');
+                                expect(comment).toHaveProperty('article_id');
+                              });
+                            });
+                        });
+                    })
+                    test('status 200 - comments should be sorted by most recent first', () => {
+                        return request(app)
+                          .get('/api/articles/1/comments')
+                          .expect(200)
+                          .then(({ body }) => {
+                            const comments = body;
+                            for (let i = 0; i < comments.length - 1; i++) {
+                              const currentComment = new Date(comments[i].created_at);
+                              const nextComment = new Date(comments[i + 1].created_at);
+                              expect(currentComment.getTime()).toBeGreaterThanOrEqual(
+                                nextComment.getTime()
+                              );
+                            }
+                          });
+                      });
+
+                      test('status:404, responds with an error message when passed a valid ID that doesnt exist', () => {
+                        return request(app)
+                          .get('/api/articles/7000/comments')
+                          .expect(404)
+                          .then(({ body }) => {
+                            expect(body.msg).toBe('Nothing here');
+                          });
+                      });
+                      test('status 400, responds with an error message when passed an invalid ID type', ()=>{
+                        return request(app)
+                        .get('/api/articles/invalidRequest/comments')
+                        .expect(400)
+                        .then(({body})=>{
+                            expect(body.msg).toBe("Invalid request")
+                        });                
+                      });
+                      test("status: 200, responds with empty array when article comments are 0", ()=>{
+                        return request(app)
+                        .get('/api/articles/2/comments')
+                        .expect(200)
+                        .then(({body})=>{
+                          expect(body).toBe([])
+                        })
+                      })
+                     
+//Q7
+describe("POST /api/articles/:article_id/comments", () => {
+  test("Status 201 -  accept a comment for article and responds with the posted comment", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "butter_bridge", body: "Here I am posting something" })
+      .expect(201)
+      .then(({ body: { comment } }) => {
+        expect(comment).toEqual(
+          expect.objectContaining({
+            comment_id: 19, 
+            body: "Here I am posting something",
+            article_id: 1,
+            author: "butter_bridge",
+            votes: 0,
+            created_at: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)//This doesn't work
+          })
+        );
+      })
+  });
+})
+
+     
+ /*Q8*/
+describe.only(('PATCH /api/articles/:article_id'), () => {
+  test('status 200 : increments vote by 1', () => {
+      return request(app)
+      .patch('/api/articles/1')
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then(({body}) => {
+          expect(body.article.votes).toBe(101);
+      });
+  });
+  test('status 400, responds with error message when passed an article_id that does not exisit', ()=>{
+    return request(app)
+    .get('/api/articles/6000')
+    .expect(404)
+    .then(({ body })=>{
+      expect(body.msg).toBe('Nothing here')
+    })
+  })
+  test('status 400, responds with an error message when passed an invalid ID type', ()=>{
+    return request(app)
+    .get('/api/articles/fishsticks')
+    .expect(400)
+    .then(({body})=>{
+        expect(body.msg).toBe("Invalid request")
+    });                
+  })
+})
+
+
