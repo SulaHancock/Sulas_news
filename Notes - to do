@@ -1,14 +1,16 @@
 
 //TO DO 
-
-//Q8:
-//200 - done
-//404 - article_id valid but doesn't exist - done 
-
-//400 - when article_id not correct datatype i.e "Badger"
-//400 - when votes is not a number
-//400 - request body is empty
+//Q8 - would like to make this test work:
+// test('status 400, non-existant user', ()=>{
+//   return request(app)
+//   .post('/api/articles/1/comments')
+//   .send({ username: "dodgy_user", body: "Here I am posting something I'm not supposed to!" })
+//   .expect(400)
+//   .then(({body}) => {
+//     expect(body.msg).toBe('Missing input');
+  
+//   }
+// )})
 
 //HOST
 
-//all: Make sure all endpoint are listed in endpoints.json file

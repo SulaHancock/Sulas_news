@@ -218,16 +218,7 @@ test('status 400, responds with an error message when passed an invalid ID type'
       expect(body.msg).toBe("Invalid request")
   });                
 });
-test('status 400, non-existant user', ()=>{
-  return request(app)
-  .post('/api/articles/1/comments')
-  .send({ username: "dodgy_user", body: "Here I am posting something I'm not supposed to!" })
-  .expect(400)
-  .then(({body}) => {
-    expect(body.msg).toBe('Missing input');
-  
-  }
-)})
+
 test('status 400, non-existant user', ()=>{
   return request(app)
   .post('/api/articles/1/comments')
@@ -251,7 +242,7 @@ test('status 400, non-existant user', ()=>{
 
      
  /*Q8*/
-describe.only(('PATCH /api/articles/:article_id'), () => {
+describe(('PATCH /api/articles/:article_id'), () => {
   test('status 200 : increments vote by 1', () => {
       return request(app)
       .patch('/api/articles/1')
@@ -277,15 +268,7 @@ describe.only(('PATCH /api/articles/:article_id'), () => {
         expect(body.msg).toBe("Invalid request")
     });                
   })
-  // test("Votes field should be a number", async () => {
-  //   const wrongVotes = "ivkvvkv";
-  //   const response = await request(app)
-  //     .post("api/articles/1")
-  //     .send({ username: "butter_bridge", body: "Some comment", votes: wrongVotes });
-  //   expect(response.status).toBe(400);
-  //   expect(response.body).toEqual({ msg: "Invalid input" })
-  // })
-
+  
   test("should return a 400 status if the request body is empty", async () => {
     const response = await request(app)
       .patch('/api/articles/1')
