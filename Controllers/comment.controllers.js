@@ -32,7 +32,6 @@ const postCommentById = (request, response, next)=>{
       .send({comment: comment[0]});
     }) 
     .catch((err)=>{
-      console.log(err)
       next(err)
     })
   };

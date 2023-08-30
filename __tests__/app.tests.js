@@ -4,8 +4,7 @@ const data = require('../db/data/test-data');
 const seed = require('../db/seeds/seed');
 const db = require('../db/connection.js');
 const jsonRequiredObj = require('/Users/sulahancock/Desktop/Northcoders/Backend/Sulas_news/endpoints.json');
-// const articles = require('../db/data/test-data/articles'); //why is this ghosted out? surely it works if Q5 passes? - do we need lines 7 and 8 if we have line 3?
-// const comments = require('../db/data/test-data/comments.js'); //is this not link to test data? why is it ghosted out?
+
 
 
 afterAll(()=>{
@@ -278,4 +277,27 @@ describe.only(('PATCH /api/articles/:article_id'), () => {
         expect(body.msg).toBe("Invalid request")
     });                
   })
+  // test("Votes field should be a number", async () => {
+  //   const wrongVotes = "ivkvvkv";
+  //   const response = await request(app)
+  //     .post("api/articles/1")
+  //     .send({ username: "butter_bridge", body: "Some comment", votes: wrongVotes });
+  //   expect(response.status).toBe(400);
+  //   expect(response.body).toEqual({ msg: "Invalid input" })
+  // })
+
+  test("should return a 400 status if the request body is empty", async () => {
+    const response = await request(app)
+      .patch('/api/articles/1')
+      .send({});
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ msg: 'Invalid vote' });
+});
+test('should decrease the vote count when inc_votes is a negative number', async () => {
+  const response = await request(app)
+    .patch('/api/articles/1')
+    .send({ inc_votes: -3 });
+  expect(response.status).toBe(200);
+  expect(response.body.article.votes).toBe(97);
+});
 })
