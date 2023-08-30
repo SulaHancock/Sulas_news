@@ -1,6 +1,18 @@
 
 //TO DO 
-//Q8 - would like to make this test work:
+
+//Q6 - would like to make this test work - would need to alter controller as already does something for comments.length
+// test("status: 200, responds with empty array when article comments are 0", ()=>{
+//     return request(app)
+//     .get('/api/articles/2/comments')
+//     .expect(200)
+//     .then(({body})=>{
+//       expect(body).toBe([])
+//     })
+//   })
+
+
+//Q7 - would like to make this test work:
 // test('status 400, non-existant user', ()=>{
 //   return request(app)
 //   .post('/api/articles/1/comments')

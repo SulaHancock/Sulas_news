@@ -42,7 +42,8 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
 
         describe('/api responds with object of apis',()=>{
             test('responds with status of 200 and object with keys description, acceptable queries and example responses, ',()=>{
-                return request(app).get('/api').expect(200)
+                return request(app).get('/api')
+                .expect(200)
                 .then((response)=>{
                     expect(typeof response.body).toBe('object'); 
                     expect(response.body).toEqual(jsonRequiredObj)
@@ -88,7 +89,8 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
 
                   /*Q5*/describe('/api/articles/',()=>{
                     test('responds with status of 200 and an article object with title, article_id, topic, created_at,votes,article_img_url, comment_count',()=>{
-                        return request(app).get('/api/articles').expect(200)
+                        return request(app).get('/api/articles')
+                        .expect(200)
                         .then(({body})=>{
                             const articles  = body.articles;
                             expect(articles.length).toBe(13);
@@ -121,6 +123,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                             }
                           });
                         });
+                        
                     });
                     
 
@@ -159,7 +162,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                           });
                       });
 
-                      test('status:404, responds with an error message when passed a valid ID that doesnt exist', () => {
+                      test('status:404, responds with an error message when passed a valid ID type, but article doesnt exist', () => {
                         return request(app)
                           .get('/api/articles/7000/comments')
                           .expect(404)
@@ -175,14 +178,7 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                             expect(body.msg).toBe("Invalid request")
                         });                
                       });
-                      // test("status: 200, responds with empty array when article comments are 0", ()=>{
-                      //   return request(app)
-                      //   .get('/api/articles/2/comments')
-                      //   .expect(200)
-                      //   .then(({body})=>{
-                      //     expect(body).toBe([])
-                      //   })
-                      // })
+                   
                      
 //Q7
 describe("POST /api/articles/:article_id/comments", () => {
@@ -202,7 +198,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       })
   });
 })
-test('status:404, responds with an error message when passed a valid ID that doesnt exist', () => {
+test('status:404, responds with an error message when passed a valid ID but article doesnt exist', () => {
   return request(app)
     .get('/api/articles/87000/comments')
     .expect(404)
@@ -219,7 +215,7 @@ test('status 400, responds with an error message when passed an invalid ID type'
   });                
 });
 
-test('status 400, non-existant user', ()=>{
+test('status 400, no body/comment entered by user', ()=>{
   return request(app)
   .post('/api/articles/1/comments')
   .send({ username: "butter_bridge", body:"" })
@@ -229,7 +225,7 @@ test('status 400, non-existant user', ()=>{
   
   }
 )})
-test('status 400, non-existant user', ()=>{
+test('status 400, no username entered by user', ()=>{
   return request(app)
   .post('/api/articles/1/comments')
   .send({ username: "", body:"lalalalalal" })
@@ -252,7 +248,7 @@ describe(('PATCH /api/articles/:article_id'), () => {
           expect(body.article.votes).toBe(101);
       });
   });
-  test('status 400, responds with error message when passed an article_id that does not exisit', ()=>{
+  test('status 400, responds with error message when passed an article_id where article does not exisit', ()=>{
     return request(app)
     .get('/api/articles/6000')
     .expect(404)
@@ -269,7 +265,7 @@ describe(('PATCH /api/articles/:article_id'), () => {
     });                
   })
   
-  test("should return a 400 status if the request body is empty", async () => {
+  test("should return a 400 status if the request body/comment is empty", async () => {
     const response = await request(app)
       .patch('/api/articles/1')
       .send({});
@@ -279,8 +275,8 @@ describe(('PATCH /api/articles/:article_id'), () => {
 test('should decrease the vote count when inc_votes is a negative number', async () => {
   const response = await request(app)
     .patch('/api/articles/1')
-    .send({ inc_votes: -3 });
+    .send({ inc_votes: -5 });
   expect(response.status).toBe(200);
-  expect(response.body.article.votes).toBe(97);
+  expect(response.body.article.votes).toBe(95);
 });
 })
