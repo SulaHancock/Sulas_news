@@ -29,7 +29,7 @@ const postCommentById = (request, response, next)=>{
     return postComment(article_id, username, body)
     .then ((comment)=>{
       response.status(201)
-      .send({comment: comment});
+      .send({comment: comment[0]});
     }) 
     .catch((err)=>{
       console.log(err)

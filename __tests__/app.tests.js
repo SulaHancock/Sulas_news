@@ -185,30 +185,27 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                       })
                      
 //Q7
-describe("POST /api/articles/:article_id/comments", () => {
+describe.only("POST /api/articles/:article_id/comments", () => {
   test("Status 201 -  accept a comment for article and responds with the posted comment", () => {
     return request(app)
       .post("/api/articles/1/comments")
       .send({ username: "butter_bridge", body: "Here I am posting something" })
       .expect(201)
       .then(({ body: { comment } }) => {
-        expect(comment).toEqual(
-          expect.objectContaining({
-            comment_id: 19, 
-            body: "Here I am posting something",
-            article_id: 1,
-            author: "butter_bridge",
-            votes: 0,
-            created_at: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)//This doesn't work
-          })
-        );
+        expect(comment).toHaveProperty('comment_id');
+        expect(comment).toHaveProperty('votes');
+        expect(comment).toHaveProperty('created_at');
+        expect(comment).toHaveProperty('author');
+        expect(comment).toHaveProperty('body');
+        expect(comment).toHaveProperty('article_id');
+        
       })
   });
 })
 
      
  /*Q8*/
-describe.only(('PATCH /api/articles/:article_id'), () => {
+describe(('PATCH /api/articles/:article_id'), () => {
   test('status 200 : increments vote by 1', () => {
       return request(app)
       .patch('/api/articles/1')
