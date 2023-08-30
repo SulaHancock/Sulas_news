@@ -22,7 +22,7 @@ const getCommentsByArticleId = (request, response, next) => {
 const postCommentById = (request, response, next)=>{
     const { article_id } = request.params; 
     const {body, username } = request.body 
-    if (!body, !username) { 
+    if (!body || !username) { 
       response.status(400)
       .send({msg: "Missing input"})
     } else { 

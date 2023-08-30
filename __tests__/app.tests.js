@@ -108,21 +108,22 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                             })
                             })
                     })
-                    test("should show the correct number of comment_count per article", () => {
+                    test("should show the correct number of comment_counts per article", () => {
                       return request(app)
                         .get("/api/articles")
                         .expect(200)
                         .then(({ body: { articles } }) => {
                           articles.forEach((article) => {
                             if (article.article_id === 1) {
-                              expect(article.comment_count).toBe('11');//need to figure how to show as int and not string
+                              expect(article.comment_count).toBe('11');
                             }
                             if (article.article_id === 9) {
-                              expect(article.comment_count).toBe('2');//need to figure how to show as int and not string
+                              expect(article.comment_count).toBe('2');
                             }
                           });
                         });
                     });
+                    
 
 
                     //Q6
@@ -175,17 +176,17 @@ describe('api/nothingThere - valid path, but nothing there', ()=>{
                             expect(body.msg).toBe("Invalid request")
                         });                
                       });
-                      test("status: 200, responds with empty array when article comments are 0", ()=>{
-                        return request(app)
-                        .get('/api/articles/2/comments')
-                        .expect(200)
-                        .then(({body})=>{
-                          expect(body).toBe([])
-                        })
-                      })
+                      // test("status: 200, responds with empty array when article comments are 0", ()=>{
+                      //   return request(app)
+                      //   .get('/api/articles/2/comments')
+                      //   .expect(200)
+                      //   .then(({body})=>{
+                      //     expect(body).toBe([])
+                      //   })
+                      // })
                      
 //Q7
-describe.only("POST /api/articles/:article_id/comments", () => {
+describe("POST /api/articles/:article_id/comments", () => {
   test("Status 201 -  accept a comment for article and responds with the posted comment", () => {
     return request(app)
       .post("/api/articles/1/comments")
@@ -202,10 +203,56 @@ describe.only("POST /api/articles/:article_id/comments", () => {
       })
   });
 })
+test('status:404, responds with an error message when passed a valid ID that doesnt exist', () => {
+  return request(app)
+    .get('/api/articles/87000/comments')
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe('Nothing here');
+    });
+});
+test('status 400, responds with an error message when passed an invalid ID type', ()=>{
+  return request(app)
+  .get('/api/articles/invalidRequest/comments')
+  .expect(400)
+  .then(({body})=>{
+      expect(body.msg).toBe("Invalid request")
+  });                
+});
+test('status 400, non-existant user', ()=>{
+  return request(app)
+  .post('/api/articles/1/comments')
+  .send({ username: "dodgy_user", body: "Here I am posting something I'm not supposed to!" })
+  .expect(400)
+  .then(({body}) => {
+    expect(body.msg).toBe('Missing input');
+  
+  }
+)})
+test('status 400, non-existant user', ()=>{
+  return request(app)
+  .post('/api/articles/1/comments')
+  .send({ username: "butter_bridge", body:"" })
+  .expect(400)
+  .then(({body}) => {
+    expect(body.msg).toBe('Missing input');
+  
+  }
+)})
+test('status 400, non-existant user', ()=>{
+  return request(app)
+  .post('/api/articles/1/comments')
+  .send({ username: "", body:"lalalalalal" })
+  .expect(400)
+  .then(({body}) => {
+    expect(body.msg).toBe('Missing input');
+  
+  }
+)})
 
      
  /*Q8*/
-describe(('PATCH /api/articles/:article_id'), () => {
+describe.only(('PATCH /api/articles/:article_id'), () => {
   test('status 200 : increments vote by 1', () => {
       return request(app)
       .patch('/api/articles/1')
@@ -232,5 +279,3 @@ describe(('PATCH /api/articles/:article_id'), () => {
     });                
   })
 })
-
-

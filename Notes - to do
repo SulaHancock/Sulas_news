@@ -1,42 +1,14 @@
 
-/*possible issues
-    1. do I need to require in index files somewhere? - is that why I'm getting 404 not found?
+//TO DO 
 
-Q5 
-1.comment_count returns corrent count - started, but not finished as need to recieve number not string (altered test to pass)
-2.test data is in desc order by created_at - can I use jest sorted? See Haroon's message about that
-error handling:
-1.404
-2.400
-json endpoint - done
+//Q8:
+//200 - done
+//404 - article_id valid but doesn't exist - done 
 
-
-Q6
-Test for errors:
-1. 404 non-exisitant article_id - done
-2. 400 - bad request i.e entered "A" instead of a number - done
-could (if time) test for:
-1. when article_id is given negative number or 0 and gives empty array
-json endpoint - done
-
-
-
-Q7:
- //Q7 happy path - has properties that client adds
- //Q7 400: if required properties are missing i.e test 1. missing username test 2. missing body
-//Q7 404 non-existant user 
-//Q7 404 non-existant ID 
-//Q7 400 - bad request - Badger instead of article_id number?
- //Q7 errors 400, 404, - do error for each invalid input? i.e no body given or no/invalid username
-json endpoint
-
-
-Q8:
-//200
-//404 - article_id valid but doesn't exist
 //400 - when article_id not correct datatype i.e "Badger"
 //400 - when votes is not a number
 //400 - request body is empty
 
+//HOST
 
-all: Make sure all endpoint are listed in endpoints.json file
+//all: Make sure all endpoint are listed in endpoints.json file

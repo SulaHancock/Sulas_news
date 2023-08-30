@@ -42,7 +42,6 @@ const fetchAllArticles = ()=>{
    
     return db.query(queryString)
     .then(result => {
-        console.log("hello")
         return result.rows[0];
     });
 };

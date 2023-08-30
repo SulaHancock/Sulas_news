@@ -32,7 +32,6 @@ app.patch('/api/articles/:article_id', patchArticleVotes);
 //error handlers
 
 app.use((_, response) => {
-    console.log(response)
     response.status(404).send({msg: 'Nothing found'});
    
     
@@ -40,7 +39,6 @@ app.use((_, response) => {
 
 app.use((err,request,response,next)=>{
     if (err.status && err.msg) {
-        console.log(err)
         response.status(err.status).send({ msg: err.msg });
   } else if (err.code === '22P02') {
     response.status(400).send({ msg: 'Invalid request' });} 
