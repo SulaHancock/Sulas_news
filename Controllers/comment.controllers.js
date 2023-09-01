@@ -1,12 +1,14 @@
-const { postComment, fetchCommentsByArticleId }  = require('be-nc-news/Models/comments.models.js')
+const { postComment, fetchCommentsByArticleId }  = require('../Models/comments.models')
 
 
 
 /*Q6*/
 const getCommentsByArticleId = (request, response, next) => {
+  console.log("hello")
     const { article_id } = request.params;
     fetchCommentsByArticleId(article_id)
       .then((comments) => {
+        console.log(comments, "this one")
         if (comments.length === 0){
             response.status(404).json({msg: "Nothing here"});
         } else{

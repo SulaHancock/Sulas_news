@@ -1,6 +1,6 @@
 
-const { fetchTopics } = require('be-nc-news/Models/topics.models.js')
-const jsonRequiredObj = require('be-nc-news/endpoints.json')
+const { fetchTopics } = require('../Models/topics.models')
+const jsonRequiredObj = require('../endpoints.json')
 
 const getTopics = (request, response, next)=>{
      fetchTopics()

@@ -1,15 +1,18 @@
-const db = require('be-nc-news/db/connection.js')
+const db = require('../db/connection')
+
 const format = require("pg-format")
 
 
   // Q6 
   const fetchCommentsByArticleId = (article_id) => {
+    console.log('model')
     return db
     .query(`SELECT *
     FROM comments
     WHERE article_id = $1
     ORDER BY created_at DESC`, [article_id])
     .then((body) => {
+      console.log(body, "body")
         const {rows} = body
         return rows
     })

@@ -1,5 +1,6 @@
 
-const db = require('be-nc-news/db/connection.js')
+const db = require('../db/connection')
+
 
 
 const fetchTopics = ()=>{

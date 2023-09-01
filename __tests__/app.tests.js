@@ -3,7 +3,7 @@ const request = require('supertest');
 const data = require('../db/data/test-data');
 const seed = require('../db/seeds/seed');
 const db = require('../db/connection.js');
-const jsonRequiredObj = require('/Users/sulahancock/Desktop/Northcoders/Backend/Sulas_news/endpoints.json');
+const jsonRequiredObj = require('../endpoints.json');
 
 
 

@@ -1,4 +1,4 @@
-const { fetchArticleById,  fetchAllArticles, updateArticleVotes } = require('be-nc-news/Models/articles.models.js')
+const { fetchArticleById,  fetchAllArticles, updateArticleVotes } = require('../Models/articles.models')
 
 const getArticleById = (request, response, next)=>{
     const chosenID = request.params.article_id
