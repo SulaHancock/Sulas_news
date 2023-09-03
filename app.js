@@ -3,6 +3,8 @@ const app = express()
 const { getTopics, getAllApis } = require('./Controllers/topics.controller')
 const {getArticleById, getAllArticlesOrderByCreatedAt,patchArticleVotes}  = require('./Controllers/articles.controller')
 const {postCommentById, getCommentsByArticleId } = require('./Controllers/comment.controllers')
+const cors = require('cors');
+app.use(cors());
 
 app.use(express.json())//added this to invoke middleware to parse
 
